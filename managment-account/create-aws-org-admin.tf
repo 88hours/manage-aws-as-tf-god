@@ -1,9 +1,10 @@
-provider "aws" {
-  region = "us-east-1"
-}
 
+variable "org_admin" {
+  description = "The name of the IAM user"
+  type        = string
+}
 resource "aws_iam_user" "org_admin" {
-  name = "org-admin"
+  name = var.org_admin
 }
 
 resource "aws_iam_user_policy" "org_admin_policy" {

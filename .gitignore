@@ -21,5 +21,5 @@ override.tf.json
 # CLI configuration
 .terraformrc
 terraform.rc
-
- *.DS_Store
+terraform.tfvars
+.terraform.lock.hcl

@@ -1,10 +1,15 @@
+
+# Create an AWS Delegated Admin Management Account  
+```bash
+sh root-scripts/create-delegate-management-account.sh
+```
 # Create an AWS Organization Admin Module **managment-account/create-aws-org-admin.tf**  
 
 Terraform uses the environment variable `AWS_PROFILE` to select which AWS credentials profile to use.
 
 This repository contains Terraform code to provision an AWS IAM user with administrative permissions for AWS Organizations, along with access keys.
 
-You need to run this from a delegated admin account, which you should create from the root account with admin access to perform duties on behalf of the root.
+You need to run this from a delegated admin account.
 
 After creation, log in to the Org admin account, enable MFA, and reset the password.
 

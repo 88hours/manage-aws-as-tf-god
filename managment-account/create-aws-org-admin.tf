@@ -17,15 +17,25 @@ resource "aws_iam_user_policy" "org_admin_policy" {
       {
         Effect   = "Allow",
         Action   = "organizations:*",
-        Resource = "*"
-      }
+        Resource = "arn:aws:iam::*:user/${aws_iam_user.org_admin.name}"
+      },
+    {
+      Effect = "Allow",
+      Action = [
+        "iam:CreateAccessKey",
+        "iam:ListAccessKeys",
+        "iam:DeleteAccessKey"
+      ],
+      Resource = "arn:aws:iam::*:user/${aws_iam_user.org_admin.name}"
+    }
     ]
   })
 }
 
 resource "aws_iam_user_login_profile" "org_admin_login" {
   user    = aws_iam_user.org_admin.name
-  pgp_key = "keybase:<your-keybase-username>" # or omit for unencrypted password
+  #pgp_key = "keybase:<your-keybase-username>" # or omit for unencrypted password
+  password_reset_required = true
 }
 
 resource "aws_iam_access_key" "org_admin_key" {

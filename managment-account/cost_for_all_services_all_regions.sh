@@ -1,13 +1,13 @@
 #!/bin/bash
 PROFILE=$1
+
 if [[ -z "$PROFILE" ]]; then
   echo "Usage: $0 <aws-profile-name>"
   exit 1
 fi
-# Install jq if not present
-if ! command -v jq &> /dev/null; then
-  echo "Installing jq..."
-  sudo yum install -y jq >/dev/null 2>&1 || sudo apt-get install -y jq
+if ! aws sts get-caller-identity --profile "$PROFILE" &>/dev/null; then
+  echo "Profile '$PROFILE' does not exist or is not configured correctly."
+  exit 1
 fi
 
 # Detect OS and # Set time range (1 day before yesterday)

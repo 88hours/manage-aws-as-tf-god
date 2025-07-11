@@ -1,11 +1,20 @@
 #!/bin/bash
 
 PROFILE=$1
-REGIONS=("ap-southeast-2" "us-west-1")
 
 if [[ -z "$PROFILE" ]]; then
   echo "Usage: $0 <aws-profile-name>"
   exit 1
+fi
+if ! aws sts get-caller-identity --profile "$PROFILE" &>/dev/null; then
+  echo "Profile '$PROFILE' does not exist or is not configured correctly."
+  exit 1
+fi
+shift  # Shift arguments to access regions
+
+REGIONS=("$@")
+if [ ${#REGIONS[@]} -eq 0 ]; then
+  REGIONS=("ap-southeast-2" "us-west-1")
 fi
 
 for REGION in "${REGIONS[@]}"; do

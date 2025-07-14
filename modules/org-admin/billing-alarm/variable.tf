@@ -15,13 +15,18 @@ variable "alarm_name_prefix" {
   type        = string
 }
 
-variable "aws_profile" {
-  description = "The AWS profile to use for authenticating with AWS. (e.g., 'default', 'my-dev-profile')"
+variable "aws_billing_region" {
+  description = "The AWS region where billing metrics are available. Must be 'us-east-1'."
+  type        = string
+  
+}
+
+variable "org_admin_profile" {
+  description = "The AWS profile to use for the organization admin"
   type        = string
 }
 
-
-variable "aws_region" {
-    description = "The AWS region to deploy resources in. Billing metrics are only available in us-east-1."
-    type        = string
+variable "main_organisation_account" {
+  description = "The main AWS account ID for the organization"
+  type        = string
 }

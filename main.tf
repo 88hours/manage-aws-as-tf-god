@@ -39,9 +39,10 @@ module "delegate-admin" {
 module "billing_alarm_setup" {
   source = "./modules/org-admin/billing-alarm" # Path to your module directory
 
-  billing_alert_threshold_usd = var.billing_threshold
-  email_recipients            = var.alert_emails
-  aws_profile                 = var.aws_profile # Pass the profile to the module's provider
-  alarm_name_prefix           = var.billing_alert_name # Custom prefix for this instance
-  aws_region                = var.aws_billing_region # Pass the region to the module
+  billing_alert_threshold_usd = var.billing_alert_threshold_usd
+  email_recipients            = var.email_recipients
+  alarm_name_prefix           = var.alarm_name_prefix
+  aws_billing_region          = var.aws_billing_region # Must be 'us-east-1'
+  main_organisation_account   = var.main_organisation_account # Pass the main organization account ID
+  org_admin_profile           = var.org_admin_profile # Use the profile for the organization admin}
 }

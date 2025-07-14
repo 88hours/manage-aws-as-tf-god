@@ -14,7 +14,7 @@ variable "aws_region" {
   
 }
 variable "aws_billing_region" {
-  description = "The AWS region to deploy resources in"
+  description = "The name of aws organisation admin"
   type        = string  
 }
 variable "billing_alert_name" {
@@ -27,12 +27,27 @@ variable "org_admin" {
   type        = string
 }
 
-variable "billing_threshold" {
-  description = "The estimated cost threshold in USD for the billing alarm."
+variable "email_recipients" {
+  description = "A list of email addresses to send billing alerts to."
+  type        = list(string)
+}
+
+variable "billing_alert_threshold_usd" {
+  description = "The estimated cost threshold in USD to trigger the billing alarm."
   type        = number
 }
 
-variable "alert_emails" {
+variable "email_recipients" {
   description = "A list of email addresses to send billing alerts to."
   type        = list(string)
+}
+
+variable "alarm_name_prefix" {
+  description = "Prefix for the alarm and SNS topic names."
+  type        = string
+}
+variable "org_admin_profile" {
+  description = "The AWS profile to use for the organization admin"
+  type        = string
+  
 }

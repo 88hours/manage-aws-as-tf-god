@@ -3,9 +3,10 @@
 # Define the AWS provider specifically for this module.
 # Billing metrics are only available in us-east-1, so we hardcode the region here.
 # The 'profile' can be passed dynamically.
+
 provider "aws" {
-  region = var.aws_region
-  profile = var.aws_profile # Use the profile passed to the module
+  region = var.aws_billing_region
+  profile = var.org_admin_profile # Use the profile passed to the module
 }
 
 # --- AWS SNS Topic for Notifications ---
@@ -13,7 +14,7 @@ resource "aws_sns_topic" "billing_alert_topic" {
   name = "${var.alarm_name_prefix}-topic"
   tags = {
     Name        = "${var.alarm_name_prefix}-topic"
-    Environment = "88hours-organization"
+    Environment =var. main_organisation_account
   }
 }
 

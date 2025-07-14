@@ -9,5 +9,5 @@ variable "org_admin" {
 }
 
 variable "aws_region" {
-  type        = string
+  type = string
 }

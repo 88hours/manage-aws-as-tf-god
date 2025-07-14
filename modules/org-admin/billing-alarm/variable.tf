@@ -18,7 +18,7 @@ variable "alarm_name_prefix" {
 variable "aws_billing_region" {
   description = "The AWS region where billing metrics are available. Must be 'us-east-1'."
   type        = string
-  
+
 }
 
 variable "org_admin_profile" {

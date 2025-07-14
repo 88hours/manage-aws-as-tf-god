@@ -2,7 +2,7 @@
 variable "main_organisation_account" {
   description = "The main AWS account ID for the organization"
   type        = string
-  
+
 }
 variable "aws_profile" {
   description = "The AWS credentials profile name"
@@ -11,11 +11,11 @@ variable "aws_profile" {
 variable "aws_region" {
   description = "The AWS region to deploy resources in"
   type        = string
-  
+
 }
 variable "aws_billing_region" {
   description = "The name of aws organisation admin"
-  type        = string  
+  type        = string
 }
 variable "billing_alert_name" {
   description = "Custom prefix for the billing alarm name"
@@ -44,5 +44,5 @@ variable "alarm_name_prefix" {
 variable "org_admin_profile" {
   description = "The AWS profile to use for the organization admin"
   type        = string
-  
+
 }

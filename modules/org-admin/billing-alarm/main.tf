@@ -5,7 +5,7 @@
 # The 'profile' can be passed dynamically.
 
 provider "aws" {
-  region = var.aws_billing_region
+  region  = var.aws_billing_region
   profile = var.org_admin_profile # Use the profile passed to the module
 }
 
@@ -14,7 +14,7 @@ resource "aws_sns_topic" "billing_alert_topic" {
   name = "${var.alarm_name_prefix}-topic"
   tags = {
     Name        = "${var.alarm_name_prefix}-topic"
-    Environment =var. main_organisation_account
+    Environment = var.main_organisation_account
   }
 }
 
@@ -41,7 +41,7 @@ resource "aws_cloudwatch_metric_alarm" "estimated_charges_alarm" {
   actions_enabled     = true
   alarm_actions       = [aws_sns_topic.billing_alert_topic.arn]
   ok_actions          = [aws_sns_topic.billing_alert_topic.arn] # Optional: Notify when costs go back under threshold
-  treat_missing_data  = "notBreaching" # Prevents false alarms if data is temporarily unavailable
+  treat_missing_data  = "notBreaching"                          # Prevents false alarms if data is temporarily unavailable
 
   dimensions = {
     Currency = "USD"

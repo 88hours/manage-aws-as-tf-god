@@ -16,7 +16,7 @@ terraform {
   }
   backend "s3" {
     bucket = "my-terraform-state-bucket-88hours"
-    key    = "managment-account/backend-setup/terraform.tfstate"
+    key    = "modules/delegate-admin/backend-setup/terraform.tfstate"
     region = "ap-southeast-2"
     #dynamodb_table = "terraform-lock-table"
     use_lockfile = true

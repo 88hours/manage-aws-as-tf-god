@@ -1,6 +1,6 @@
 
 output "org_admin" {
-  value = module.managment_admin.org_admin
+  value = module.delegate_admin.org_admin
 }
 output "billing_alarm_name" {
   description = "The name of the billing alarm created by the module."

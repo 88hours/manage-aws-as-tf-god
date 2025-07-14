@@ -1,6 +1,6 @@
 
 provider "aws" {
-  region  = "ap-southeast-2"
+  region  = var.aws_region
   profile = var.aws_profile
 }
 resource "aws_iam_user" "org_admin" {

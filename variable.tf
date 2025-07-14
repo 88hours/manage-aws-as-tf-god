@@ -37,11 +37,6 @@ variable "billing_alert_threshold_usd" {
   type        = number
 }
 
-variable "email_recipients" {
-  description = "A list of email addresses to send billing alerts to."
-  type        = list(string)
-}
-
 variable "alarm_name_prefix" {
   description = "Prefix for the alarm and SNS topic names."
   type        = string

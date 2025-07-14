@@ -23,3 +23,5 @@ override.tf.json
 terraform.rc
 terraform.tfvars
 .terraform.lock.hcl
+
+migration.code-workspace

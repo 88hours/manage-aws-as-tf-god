@@ -1,14 +1,7 @@
-variable "aws_profile" {
-  description = "The AWS credentials profile name"
-  type        = string
-}
+
 provider "aws" {
   region  = "ap-southeast-2"
   profile = var.aws_profile
-}
-variable "org_admin" {
-  description = "The name of the organisation admin"
-  type        = string
 }
 resource "aws_iam_user" "org_admin" {
   name = var.org_admin
@@ -58,8 +51,4 @@ resource "aws_iam_user_login_profile" "org_admin_login" {
 
 resource "aws_iam_access_key" "org_admin_key" {
   user = aws_iam_user.org_admin.name
-}
-
-output "org_admin" {
-  value = var.org_admin
 }

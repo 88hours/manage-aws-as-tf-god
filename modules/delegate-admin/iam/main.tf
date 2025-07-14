@@ -3,12 +3,21 @@ provider "aws" {
   region  = var.aws_region
   profile = var.aws_profile
 }
+provider "aws" {
+  region  = var.aws_billing_region
+  profile = var.aws_profile
+  alias = "aws_billing_region"
+}
+# --- AWS IAM User for Organization Admin ---
 resource "aws_iam_user" "org_admin" {
   name = var.org_admin
+  # IAM users are global, so no 'provider' argument is needed here;
+  # it uses the default provider implicitly.
 }
 
+# --- AWS IAM Policy for Organization Admin ---
 resource "aws_iam_user_policy" "org_admin_policy" {
-  name = "OrgAdminFullAccess"
+  name = "${var.org_admin}-FullAccess"
   user = aws_iam_user.org_admin.name
 
   policy = jsonencode({
@@ -17,16 +26,75 @@ resource "aws_iam_user_policy" "org_admin_policy" {
       {
         Effect   = "Allow",
         Action   = "organizations:*",
-        Resource = "arn:aws:iam::*:user/${aws_iam_user.org_admin.name}"
+        Resource = "*"
       },
       {
         Effect = "Allow",
         Action = [
           "iam:CreateAccessKey",
           "iam:ListAccessKeys",
-          "iam:DeleteAccessKey"
+          "iam:DeleteAccessKey",
+          "iam:GetLoginProfile",
+          "iam:CreateLoginProfile",
+          "iam:UpdateLoginProfile",
+          "iam:DeleteLoginProfile",
+          "iam:ListUsers"
         ],
         Resource = "arn:aws:iam::*:user/${aws_iam_user.org_admin.name}"
+      },
+      {
+        Effect = "Allow",
+        Action = [
+          "sts:AssumeRole"
+        ],
+        Resource = "*"
+      },
+      {
+        Effect = "Allow",
+        Action = "ec2:DescribeRegions",
+        Resource = "*"
+      },
+      # --- ADD THESE SNS PERMISSIONS ---
+      {
+        Effect = "Allow",
+        Action = [
+          "sns:CreateTopic",
+          "sns:Publish",
+          "sns:Subscribe",
+          "sns:Receive",
+          "sns:ListTopics",
+          "sns:ListSubscriptions",
+          "sns:GetTopicAttributes",
+          "sns:SetTopicAttributes",
+          "sns:DeleteTopic",
+          "sns:Unsubscribe"
+        ],
+        Resource = "*" # Allows SNS actions on all topics. You can restrict to specific ARNs if needed.
+      },
+      # --- ADD THESE CLOUDWATCH PERMISSIONS (for alarms) ---
+      {
+        Effect = "Allow",
+        Action = [
+          "cloudwatch:PutMetricAlarm",
+          "cloudwatch:DescribeAlarms",
+          "cloudwatch:DeleteAlarms",
+          "cloudwatch:GetMetricData",
+          "cloudwatch:ListMetrics"
+        ],
+        Resource = "*" # CloudWatch actions are often *
+      },
+      # --- ADD THESE BILLING PERMISSIONS (for estimated charges metric) ---
+      {
+        Effect = "Allow",
+        Action = [
+          "cloudwatch:GetMetricStatistics", # Specifically for billing metrics
+          "ce:GetCostAndUsage",             # For more detailed billing info (AWS Budgets might use this)
+          "aws-portal:ViewBilling",
+          "aws-portal:ViewUsage",
+          "aws-portal:ViewAccount",
+          "aws-portal:ModifyBilling"        # If they need to change billing preferences
+        ],
+        Resource = "*"
       }
     ]
   })

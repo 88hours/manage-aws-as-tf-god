@@ -33,6 +33,7 @@ module "delegate_admin" {
   org_admin   = var.org_admin
   aws_profile = var.aws_profile
   aws_region  = var.aws_region
+  aws_billing_region = var.aws_billing_region
 }
 
 

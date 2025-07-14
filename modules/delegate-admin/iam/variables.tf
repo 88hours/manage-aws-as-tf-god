@@ -11,3 +11,7 @@ variable "org_admin" {
 variable "aws_region" {
   type = string
 }
+
+variable "aws_billing_region" {
+  type = string
+}

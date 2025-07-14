@@ -46,3 +46,7 @@ variable "org_admin_profile" {
   type        = string
 
 }
+variable "org_admin_policy" {
+  description = "The name of the IAM policy for the Organization Admin"
+  type        = string
+}

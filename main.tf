@@ -28,6 +28,7 @@ provider "aws" {
   profile = var.aws_profile
   region  = var.aws_region
 }
+
 module "delegate_admin" {
   source      = "./modules/delegate-admin/iam"
   org_admin   = var.org_admin
@@ -35,8 +36,6 @@ module "delegate_admin" {
   aws_region  = var.aws_region
   aws_billing_region = var.aws_billing_region
 }
-
-
 # --- Call the Billing Alarm Module ---
 module "billing_alarm_setup" {
   source = "./modules/org-admin/billing-alarm" # Path to your module directory

@@ -67,7 +67,17 @@ resource "aws_iam_user_policy" "org_admin_policy" {
           "sns:GetTopicAttributes",
           "sns:SetTopicAttributes",
           "sns:DeleteTopic",
-          "sns:Unsubscribe"
+          "sns:Unsubscribe",
+          "sns:TagResource",     
+          "sns:UntagResource",
+          "sns:ListTagsForResource",
+          "sns:ConfirmSubscription",
+          "sns:ListSubscriptionsByTopic",
+          "sns:GetSubscriptionAttributes",
+          "sns:SetSubscriptionAttributes",
+          "sns:DeleteSubscription",
+          "sns:ReceiveMessage",
+          "sns:ListSubscriptionsByTopic",
         ],
         Resource = "*" # Allows SNS actions on all topics. You can restrict to specific ARNs if needed.
       },
@@ -79,7 +89,17 @@ resource "aws_iam_user_policy" "org_admin_policy" {
           "cloudwatch:DescribeAlarms",
           "cloudwatch:DeleteAlarms",
           "cloudwatch:GetMetricData",
-          "cloudwatch:ListMetrics"
+          "cloudwatch:ListMetrics",
+          "cloudwatch:EnableAlarmActions",
+          "cloudwatch:DisableAlarmActions",
+          "cloudwatch:SetAlarmState",
+          "cloudwatch:DescribeAlarmHistory",
+          "cloudwatch:GetMetricStatistics", # Specifically for billing metrics
+          "cloudwatch:PutMetricData", # If you need to send custom metrics
+          "cloudwatch:ListTagsForResource",
+          "cloudwatch:TagResource",
+          "cloudwatch:UntagResource",
+
         ],
         Resource = "*" # CloudWatch actions are often *
       },
@@ -87,7 +107,6 @@ resource "aws_iam_user_policy" "org_admin_policy" {
       {
         Effect = "Allow",
         Action = [
-          "cloudwatch:GetMetricStatistics", # Specifically for billing metrics
           "ce:GetCostAndUsage",             # For more detailed billing info (AWS Budgets might use this)
           "aws-portal:ViewBilling",
           "aws-portal:ViewUsage",

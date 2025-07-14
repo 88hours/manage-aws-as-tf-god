@@ -51,6 +51,6 @@ resource "aws_cloudwatch_metric_alarm" "estimated_charges_alarm" {
 
   tags = {
     Name        = "${var.alarm_name_prefix}-alarm"
-    Environment = "production"
+    Environment = var.main_organisation_account
   }
 }

@@ -50,3 +50,12 @@ variable "org_admin_policy" {
   description = "The name of the IAM policy for the Organization Admin"
   type        = string
 }
+variable "sso_users" {
+  description = "List of SSO users to create"
+  type = list(object({
+    user_name    = string
+    display_name = string
+    email        = string
+  }))
+  
+}

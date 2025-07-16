@@ -16,7 +16,7 @@ terraform {
   }
   backend "s3" {
     bucket = "my-terraform-state-bucket-88hours"
-    key    = "modules/delegate-admin/backend-setup/terraform.tfstate"
+    key    = "modules/org-admin/backend-setup/terraform.tfstate"
     region = "ap-southeast-2"
     #dynamodb_table = "terraform-lock-table"
     use_lockfile = true
@@ -30,7 +30,7 @@ provider "aws" {
 }
 
 module "delegate_admin" {
-  source      = "./modules/delegate-admin/iam"
+  source      = "./modules/org-admin/iam"
   org_admin   = var.org_admin
   aws_profile = var.aws_profile
   aws_region  = var.aws_region

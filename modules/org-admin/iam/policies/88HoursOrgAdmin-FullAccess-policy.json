@@ -12,28 +12,47 @@
                 "iam:GetLoginProfile",
                 "iam:CreateLoginProfile",
                 "iam:UpdateLoginProfile",
-                "iam:DeleteLoginProfile"
+                "iam:DeleteLoginProfile",
+                "iam:TagUser",
+                "iam:UntagUser",
+                "iam:ListUserTags"
             ],
             "Resource": "arn:aws:iam::684273075367:user/88HoursOrgAdmin"
         },
         {
             "Effect": "Allow",
             "Action": [
-                "iam:GetUser",
-                "iam:ListUsers",
-                "iam:GetUserPolicy",
-                "iam:ListUserPolicies",
-                "iam:ListAttachedUserPolicies",
+                "iam:CreatePolicy",
+                "iam:CreatePolicyVersion",
+                "iam:SetDefaultPolicyVersion",
+                "iam:DeletePolicyVersion",
+                "iam:DeletePolicy",
                 "iam:GetPolicy",
-                "iam:GetPolicyVersion"
+                "iam:GetPolicyVersion",
+                "iam:ListPolicyVersions",
+                "iam:ListPolicies",
+                "iam:ListEntitiesForPolicy",
+                "iam:TagPolicy",
+                "iam:UntagPolicy",
+                "iam:ListPolicyTags",
+                "iam:AttachUserPolicy",
+                "iam:DetachUserPolicy",
+                "iam:AttachRolePolicy",
+                "iam:DetachRolePolicy",
+                "iam:AttachGroupPolicy",
+                "iam:DetachGroupPolicy"
             ],
-            "Resource": "arn:aws:iam::684273075367:user/88HoursOrgAdmin"
+            "Resource": [
+                "arn:aws:iam::684273075367:policy/88HoursOrgAdminManagedPolicy",
+                "arn:aws:iam::684273075367:user/88HoursOrgAdmin"
+            ]
         },
         {
             "Action": [
                 "iam:CreateAccessKey",
                 "iam:ListAccessKeys",
                 "iam:DeleteAccessKey",
+                "iam:GetAccessKeyLastUsed",
                 "iam:GetLoginProfile",
                 "iam:CreateLoginProfile",
                 "iam:UpdateLoginProfile",

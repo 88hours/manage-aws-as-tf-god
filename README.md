@@ -9,9 +9,13 @@ Terraform uses the environment variable `AWS_PROFILE` to select which AWS creden
 You can also use 
 ```bash
 export PARENT_DIR=$HOME/<main path for parent dir>
-terraform plan -var-file=$PARENT_DIR/terraform.tfvars
-``` 
-
+```
+Other usefull AWS CLI commands 
+```bash
+aws iam list-attached-user-policies --user-name <user_name>
+aws iam list-user-policies --user-name <user_name> --query "PolicyNames" --output text
+aws iam get-user-policy --user-name <user_name> --policy-name <policy_name>
+```
 This repository contains Terraform code to provision an AWS IAM user with administrative permissions for AWS Organizations, along with access keys.
 
 You need to run this from a delegated admin account.

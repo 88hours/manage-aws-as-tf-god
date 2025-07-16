@@ -13,14 +13,20 @@ resource "aws_iam_user" "org_admin" {
   name = var.org_admin
   # IAM users are global, so no 'provider' argument is needed here;
   # it uses the default provider implicitly.
+  tags = {
+    user = var.org_admin
+    role = "Organization Admin"
+  }
 }
-
-# --- AWS IAM Policy for Organization Admin ---
-resource "aws_iam_user_policy" "org_admin_policy" {
-  name = "${var.org_admin}"
-  user = aws_iam_user.org_admin.name
-
+resource "aws_iam_policy" "org_admin_policy" {
+  name   = var.org_admin_policy
   policy = file("./modules/org-admin/iam/policies/88HoursOrgAdmin-FullAccess-policy.json") # Path to your policy file
+}
+# --- AWS IAM Policy for Organization Admin ---
+resource "aws_iam_user_policy_attachment" "org_admin_attach" {
+  user = "${var.org_admin}"
+  #policy_arn = aws_iam_policy.org_admin_policy.arn
+  policy_arn = aws_iam_policy.org_admin_policy.arn
 }
 
 

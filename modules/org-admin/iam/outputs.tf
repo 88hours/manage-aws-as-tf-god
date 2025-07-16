@@ -22,7 +22,7 @@ output "org_admin_login_password_initial" {
 
 output "org_admin_policy" {
   # This output provides the name of the IAM policy attached to the Organization Admin user.
-  value = aws_iam_user_policy.org_admin_policy.name
+  value = aws_iam_policy.org_admin_policy.name
   description = "The name of the IAM policy attached to the Organization Admin user."
   sensitive   = true # Mark as sensitive as it contains policy details
 }

@@ -15,3 +15,7 @@ variable "aws_region" {
 variable "aws_billing_region" {
   type = string
 }
+variable "org_admin_policy" {
+  description = "The name of the IAM policy for the Organization Admin"
+  type        = string
+}

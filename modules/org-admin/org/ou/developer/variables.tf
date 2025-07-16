@@ -27,8 +27,3 @@ variable "permission_set_description" {
   type        = string
   default     = "Admin access for SSO user"
 }
-
-variable "target_account_id" {
-  description = "Target AWS account ID for access assignment"
-  type        = string
-}

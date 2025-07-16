@@ -35,5 +35,5 @@ output "assignment_principal_ids" {
 
 output "target_account_id" {
   description = "Target AWS account ID for access assignment"
-  value       = var.target_account_id
-}
+  value       = data.aws_caller_identity.this.account_id
+  }

@@ -4,6 +4,7 @@ provider "aws" {
   profile = var.org_admin_profile
 }
 data "aws_ssoadmin_instances" "this" {}
+data "aws_caller_identity" "this" {}
 
 resource "aws_identitystore_user" "sso_users" {
   for_each = { for user in var.sso_users : user.user_name => user }
@@ -53,6 +54,6 @@ resource "aws_ssoadmin_account_assignment" "assign_users" {
   permission_set_arn = aws_ssoadmin_permission_set.admin_access.arn
   principal_id       = each.value.user_id
   principal_type     = "USER"
-  target_id          = var.target_account_id
+  target_id          = data.aws_caller_identity.this.account_id
   target_type        = "AWS_ACCOUNT"
 }

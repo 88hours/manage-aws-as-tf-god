@@ -1,6 +1,6 @@
 ```bash
 #!/bin/bash
-
+# This is an obselete script creates an IAM user with Administrator access and a login profile.
 ADMIN_NAME=$1
 ADMIN_PASSWORD=$2
 

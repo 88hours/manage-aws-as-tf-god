@@ -59,3 +59,8 @@ variable "sso_users" {
   }))
   
 }
+
+variable "organisation_id" {
+  description = "The ID of the AWS Organization"
+  type        = string  
+}

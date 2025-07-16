@@ -15,7 +15,13 @@
                 "iam:DeleteLoginProfile",
                 "iam:TagUser",
                 "iam:UntagUser",
-                "iam:ListUserTags"
+                "iam:ListUserTags",
+                "iam:ListAttachedUserPolicies",
+                "iam:ListUserPolicies",
+                "iam:PutUserPolicy",
+                "iam:DeleteUserPolicy",
+                "iam:GetUserPolicy",                "iam:ListInstances"
+
             ],
             "Resource": "arn:aws:iam::684273075367:user/88HoursOrgAdmin"
         },
@@ -31,6 +37,9 @@
                 "iam:GetPolicyVersion",
                 "iam:ListPolicyVersions",
                 "iam:ListPolicies",
+                "iam:ListAttachedUserPolicies",
+                "iam:ListAttachedRolePolicies",
+                "iam:ListAttachedGroupPolicies",
                 "iam:ListEntitiesForPolicy",
                 "iam:TagPolicy",
                 "iam:UntagPolicy",
@@ -40,12 +49,10 @@
                 "iam:AttachRolePolicy",
                 "iam:DetachRolePolicy",
                 "iam:AttachGroupPolicy",
-                "iam:DetachGroupPolicy"
+                "iam:DetachGroupPolicy",
+                "iam:ListInstances"
             ],
-            "Resource": [
-                "arn:aws:iam::684273075367:policy/88HoursOrgAdminManagedPolicy",
-                "arn:aws:iam::684273075367:user/88HoursOrgAdmin"
-            ]
+            "Resource": "arn:aws:iam::684273075367:policy/88HoursOrgAdminManagedPolicy"
         },
         {
             "Action": [

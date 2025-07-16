@@ -1,8 +1,4 @@
 
-provider "aws" {
-  region  = var.aws_region
-  profile = var.org_admin_profile
-}
 data "aws_ssoadmin_instances" "this" {}
 
 resource "aws_identitystore_user" "sso_users" {

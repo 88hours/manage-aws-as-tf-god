@@ -64,3 +64,7 @@ variable "organisation_id" {
   description = "The ID of the AWS Organization"
   type        = string  
 }
+variable "permission_set_name" {
+  description = "Name of the permission set"
+  type        = string
+}

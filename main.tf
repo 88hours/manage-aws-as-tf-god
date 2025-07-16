@@ -27,6 +27,7 @@ terraform {
 provider "aws" {
   profile = var.aws_profile
   region  = var.aws_region
+  alias  = "org_admin"
 }
 
 module "org_admin" {
@@ -47,4 +48,18 @@ module "billing_alarm_setup" {
   aws_billing_region          = var.aws_billing_region        # Must be 'us-east-1'
   main_organisation_account   = var.main_organisation_account # Pass the main organization account ID
   org_admin_profile           = var.org_admin_profile         # Use the profile for the organization admin}
+}
+
+module "sso_users" {
+  source = "./modules/org-admin/sso-users"
+  providers = {
+    aws = aws.org_admin
+  }
+  
+  sso_users                = var.sso_users
+  permission_set_name      = var.permission_set_name
+  target_account_id        = var.organisation_id
+
+  depends_on = [module.org_admin]
+  
 }

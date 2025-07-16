@@ -5,16 +5,6 @@ output "user_ids" {
     k => user.user_id
   }
 }
-output "aws_region" {
-  description = "AWS region where the resources are created"
-  value       = var.aws_region
-}
-
-output "org_admin_profile" {
-  description = "AWS profile used for organization admin operations"
-  value       = var.org_admin_profile
-  
-}
 
 output "permission_set_arn" {
   description = "ARN of the created permission set"

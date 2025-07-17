@@ -20,7 +20,7 @@
                 "iam:ListUserPolicies",
                 "iam:PutUserPolicy",
                 "iam:DeleteUserPolicy",
-                "iam:GetUserPolicy",                "iam:ListInstances"
+                "iam:GetUserPolicy"               
 
             ],
             "Resource": "arn:aws:iam::684273075367:user/88HoursOrgAdmin"
@@ -49,8 +49,7 @@
                 "iam:AttachRolePolicy",
                 "iam:DetachRolePolicy",
                 "iam:AttachGroupPolicy",
-                "iam:DetachGroupPolicy",
-                "iam:ListInstances"
+                "iam:DetachGroupPolicy"
             ],
             "Resource": "arn:aws:iam::684273075367:policy/88HoursOrgAdminManagedPolicy"
         },
@@ -70,6 +69,19 @@
             "Resource": "arn:aws:iam::*:user/88HoursOrgAdmin"
         },
         {
+            "Effect": "Allow",
+            "Action": [
+                "sso:ListPermissionSets",
+                "sso:DescribePermissionSet",
+                "sso:ListAccountAssignments",
+                "sso:CreateAccountAssignment",
+                "sso:DeleteAccountAssignment",  
+                "sso:ListInstances"
+
+            ],
+            "Resource": "*"
+            },      
+            {
             "Action": [
                 "sts:AssumeRole"
             ],

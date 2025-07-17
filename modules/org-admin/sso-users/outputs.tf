@@ -8,16 +8,16 @@ output "user_ids" {
 
 output "permission_set_arn" {
   description = "ARN of the created permission set"
-  value       = aws_ssoadmin_permission_set.admin_access.arn
+  value       = aws_ssoadmin_permission_set.dev_access.arn
 }
 output "permission_set_name" {
   description = "Name of the created permission set"
-  value       = aws_ssoadmin_permission_set.admin_access.name
+  value       = aws_ssoadmin_permission_set.dev_access.name
 }
 output "assignment_principal_ids" {
   description = "Map of user_name to assigned principal IDs"
   value = {
-    for k, assignment in aws_ssoadmin_account_assignment.assign_users :
+    for k, assignment in aws_ssoadmin_account_assignment.assign_devs:
     k => assignment.principal_id
   }
 }
@@ -28,4 +28,8 @@ output "identity_store_id" {
 output "target_account_id" {
   description = "Target AWS account ID for access assignment"
   value       = var.target_account_id
+}
+output "group_id" {
+  description = "ID of the created identity store group"
+  value       = aws_identitystore_group.dev_group.group_id
 }

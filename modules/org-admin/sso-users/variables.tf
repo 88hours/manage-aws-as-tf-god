@@ -1,4 +1,4 @@
-variable "sso_users" {
+variable "dev_users" {
   description = "List of SSO users to create"
   type = list(object({
     user_name    = string
@@ -15,7 +15,7 @@ variable "permission_set_name" {
 variable "permission_set_description" {
   description = "Description for the permission set"
   type        = string
-  default     = "Admin access for SSO user"
+  default     = "Developer Admin Access"
 }
 
 variable "target_account_id" {

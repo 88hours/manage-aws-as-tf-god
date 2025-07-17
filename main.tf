@@ -56,7 +56,7 @@ module "sso_users" {
     aws = aws.org_admin
   }
   
-  sso_users                = var.sso_users
+  dev_users                = var.dev_users
   permission_set_name      = var.permission_set_name
   target_account_id        = var.organisation_id
 

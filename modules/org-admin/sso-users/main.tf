@@ -1,8 +1,30 @@
+locals {
+  policies = [
+    "arn:aws:iam::aws:policy/PowerUserAccess"
+  ]
+}
+
 
 data "aws_ssoadmin_instances" "this" {}
 
+resource "aws_identitystore_group" "dev_group" {
+  identity_store_id = data.aws_ssoadmin_instances.this.identity_store_ids[0]
+  display_name      = "Developers"
+}
+
+resource "aws_identitystore_group_membership" "dev_group" {
+  identity_store_id = data.aws_ssoadmin_instances.this.identity_store_ids[0]
+  group_id          = aws_identitystore_group.dev_group.group_id
+
+  for_each = {
+    for user in var.dev_users : user.user_name => user
+  }
+
+  member_id = aws_identitystore_user.sso_users[each.key].user_id
+}
+
 resource "aws_identitystore_user" "sso_users" {
-  for_each = { for user in var.sso_users : user.user_name => user }
+  for_each = { for user in var.dev_users : user.user_name => user }
 
   identity_store_id = data.aws_ssoadmin_instances.this.identity_store_ids[0]
   user_name         = each.value.user_name
@@ -20,35 +42,28 @@ resource "aws_identitystore_user" "sso_users" {
 }
 
 
-resource "aws_ssoadmin_permission_set" "admin_access" {
+resource "aws_ssoadmin_permission_set" "dev_access" {
   name             = var.permission_set_name
   description      = var.permission_set_description
   instance_arn     = tolist(data.aws_ssoadmin_instances.this.arns)[0]
-  session_duration = "PT8H"
-}
-resource "aws_ssoadmin_permission_set_inline_policy" "admin_policy" {
-  instance_arn       = tolist(data.aws_ssoadmin_instances.this.arns)[0]
-  permission_set_arn = aws_ssoadmin_permission_set.admin_access.arn
-
-  inline_policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Effect   = "Allow",
-        Action   = "*",
-        Resource = "*"
-      }
-    ]
-  })
+  session_duration = "PT4H"
 }
 
-resource "aws_ssoadmin_account_assignment" "assign_users" {
-  for_each = aws_identitystore_user.sso_users
+resource "aws_ssoadmin_managed_policy_attachment" "dev_policy" {
+  for_each = toset(local.policies)
 
-  instance_arn       = tolist(data.aws_ssoadmin_instances.this.arns)[0]
-  permission_set_arn = aws_ssoadmin_permission_set.admin_access.arn
-  principal_id       = each.value.user_id
-  principal_type     = "USER"
+  instance_arn       = data.aws_ssoadmin_instances.this.arns[0]
+  permission_set_arn = aws_ssoadmin_permission_set.dev_access.arn
+  managed_policy_arn = each.key
+}
+
+resource "aws_ssoadmin_account_assignment" "assign_devs" {
+  for_each = aws_identitystore_group_membership.dev_group
+  instance_arn       = data.aws_ssoadmin_instances.this.arns[0]
+  permission_set_arn = aws_ssoadmin_permission_set.dev_access.arn
+  principal_id       = each.value.group_id
+  principal_type     = "GROUP"
   target_id          = var.target_account_id
   target_type        = "AWS_ACCOUNT"
+
 }

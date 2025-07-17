@@ -42,7 +42,7 @@
         "iam:DetachRolePolicy",
         "iam:ListAttachedRolePolicies",
         "iam:PutRolePolicy",
-        "iam:DeleteRolePolicy"
+        "iam:DeleteRolePolicy","iam:ListRolePolicies"
       ],
       "Resource": "*"
     },{

@@ -20,12 +20,32 @@
                 "iam:ListUserPolicies",
                 "iam:PutUserPolicy",
                 "iam:DeleteUserPolicy",
-                "iam:GetUserPolicy"               
+                "iam:GetUserPolicy"
 
             ],
             "Resource": "arn:aws:iam::684273075367:user/88HoursOrgAdmin"
-        },
-        {
+        },{
+      "Sid": "IAMActionsForSSO",
+      "Effect": "Allow",
+      "Action": [
+        "iam:GetSAMLProvider",
+        "iam:CreateSAMLProvider",
+        "iam:UpdateSAMLProvider",
+        "iam:DeleteSAMLProvider",
+        "iam:ListSAMLProviders",
+        "iam:PassRole",
+        "iam:GetRole",
+        "iam:ListRoles",
+        "iam:CreateRole",
+        "iam:DeleteRole",
+        "iam:AttachRolePolicy",
+        "iam:DetachRolePolicy",
+        "iam:ListAttachedRolePolicies",
+        "iam:PutRolePolicy",
+        "iam:DeleteRolePolicy"
+      ],
+      "Resource": "*"
+    },{
             "Effect": "Allow",
             "Action": [
                 "iam:CreatePolicy",
@@ -71,12 +91,10 @@
         {
             "Effect": "Allow",
             "Action": [
-                "sso:ListPermissionSets",
-                "sso:DescribePermissionSet",
-                "sso:ListAccountAssignments",
-                "sso:CreateAccountAssignment",
-                "sso:DeleteAccountAssignment",  
-                "sso:ListInstances"
+                "sso:*",
+                "sso-admin:*",
+                "identitystore:*",    
+                "sso:ProvisionPermissionSet"
 
             ],
             "Resource": "*"

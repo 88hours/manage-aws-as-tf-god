@@ -21,6 +21,9 @@ resource "aws_iam_user" "org_admin" {
 resource "aws_iam_policy" "org_admin_policy" {
   name   = var.org_admin_policy
   policy = file("./modules/org-admin/iam/policies/88HoursOrgAdmin-FullAccess-policy.json") # Path to your policy file
+    lifecycle {
+    prevent_destroy = true
+  }
 }
 # --- AWS IAM Policy for Organization Admin ---
 resource "aws_iam_user_policy_attachment" "org_admin_attach" {

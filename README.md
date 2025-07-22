@@ -36,6 +36,16 @@ terraform show -json tf.plan > tfplan.json
 - Remove org-admin, just one IAM user as AWS Org admin to have billing notifications and do BAU activcities. 
 
 ## GOTCHA
+```bash
+terraform apply -target=module.org_admin.aws_iam_policy.org_admin_policy
+```
+
+These are taking lot of time, like 20 mins so far
+
+"PermissionSetProvisioningStatus": 
+        "Status": "IN_PROGRESS",
+module.cloudtrail_logs.aws_s3_bucket.cloudtrail_bucket: Still creating... [01m20s elapsed]
+
 sso:ProvisionPermissionSet is NOT covered by sso:*
 AWS has two distinct APIs:
 

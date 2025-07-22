@@ -52,14 +52,23 @@ module "billing_alarm_setup" {
 
 module "sso_users" {
   source = "./modules/org-admin/sso-users"
-  providers = {
-    aws = aws.org_admin
-  }
-  
   dev_users                = var.dev_users
   permission_set_name      = var.permission_set_name
   target_account_id        = var.organisation_id
 
   depends_on = [module.org_admin]
+  
+}
+
+module "cloudtrail_logs" {
+  source = "./modules/org-admin/trails-logs"
+
+  cloudtrail_log_group_name      = var.cloudtrail_log_group_name
+  cloudtrail_name                = var.cloudtrail_name
+  cloudtrail_bucket_name         = var.cloudtrail_bucket_name
+  cloudtrail_global_region       = var.cloudtrail_global_region
+  cloudtrail_versioning_enabled  = var.cloudtrail_versioning_enabled
+  cloudtrail_cloudwatchlogs_role = var.cloudtrail_cloudwatchlogs_role
+  cloudtrail_cloudwatchlogs_policy = var.cloudtrail_cloudwatchlogs_policy
   
 }

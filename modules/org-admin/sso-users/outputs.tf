@@ -14,13 +14,14 @@ output "permission_set_name" {
   description = "Name of the created permission set"
   value       = aws_ssoadmin_permission_set.dev_access.name
 }
+/*
 output "assignment_principal_ids" {
   description = "Map of user_name to assigned principal IDs"
   value = {
     for k, assignment in aws_ssoadmin_account_assignment.assign_devs:
     k => assignment.principal_id
   }
-}
+}*/
 output "identity_store_id" {
   description = "Identity Store ID where SSO users are created"
   value       = data.aws_ssoadmin_instances.this.identity_store_ids[0]

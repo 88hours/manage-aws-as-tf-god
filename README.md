@@ -46,3 +46,12 @@ sso-admin:* → Main API for managing Identity Center (permission sets, assignme
 But sso:ProvisionPermissionSet is NOT part of sso-admin:* or sso:*.
 It’s a separate permission in the sso namespace.
 So even if you write "sso-admin:*" it won’t include this.
+
+ IAM Identity Center (AWS SSO) does not automatically send invite emails when users are created via Terraform or API.
+ https://88hours.awsapps.com/start
+
+ Terraform can’t directly retrieve the StartUrl. It can only reference instance_arn and identity_store_id via:
+```bash
+data "aws_ssoadmin_instances" "this" {}
+```
+It does not expose start_url.

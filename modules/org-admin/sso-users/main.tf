@@ -1,6 +1,12 @@
 locals {
   policies = [
-    "arn:aws:iam::aws:policy/PowerUserAccess"
+    "arn:aws:iam::aws:policy/PowerUserAccess",
+    "arn:aws:iam::aws:policy/AmazonS3FullAccess",
+    "arn:aws:iam::aws:policy/AWSLambda_FullAccess",
+    "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess",
+    "arn:aws:iam::aws:policy/AmazonEC2FullAccess",
+    "arn:aws:iam::aws:policy/AmazonRDSFullAccess",
+    "arn:aws:iam::aws:policy/AWSCloudFormationFullAccess"
   ]
 }
 
@@ -58,10 +64,9 @@ resource "aws_ssoadmin_managed_policy_attachment" "dev_policy" {
 }
 
 resource "aws_ssoadmin_account_assignment" "assign_devs" {
-  for_each = aws_identitystore_group_membership.dev_group
   instance_arn       = data.aws_ssoadmin_instances.this.arns[0]
   permission_set_arn = aws_ssoadmin_permission_set.dev_access.arn
-  principal_id       = each.value.group_id
+  principal_id       = aws_identitystore_group.dev_group.group_id
   principal_type     = "GROUP"
   target_id          = var.target_account_id
   target_type        = "AWS_ACCOUNT"

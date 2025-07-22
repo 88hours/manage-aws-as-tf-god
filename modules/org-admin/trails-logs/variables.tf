@@ -19,20 +19,20 @@ variable "cloudtrail_global_region" {
 
 variable "cloudtrail_versioning_enabled" {
   description = "Enable versioning for the CloudTrail S3 bucket"
-  type        = bool  
+  type        = bool
 }
 
 variable "cloudtrail_cloudwatchlogs_role" {
   description = "Name of the IAM role for CloudTrail to write logs to CloudWatch"
-  type        = string  
+  type        = string
 }
 
 variable "cloudtrail_cloudwatchlogs_policy" {
   description = "Name of the IAM policy for CloudTrail to write logs to CloudWatch"
-  type        = string  
+  type        = string
 }
 variable "organisation_id" {
   description = "The ID of the AWS Organization"
-  type        = string  
-  
+  type        = string
+
 }

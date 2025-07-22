@@ -19,3 +19,8 @@ variable "org_admin_policy" {
   description = "The name of the IAM policy for the Organization Admin"
   type        = string
 }
+
+variable "target_account_id" {
+  description = "Target AWS account ID for access assignment"
+  type        = string
+}

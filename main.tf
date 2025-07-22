@@ -27,17 +27,18 @@ terraform {
 provider "aws" {
   profile = var.aws_profile
   region  = var.aws_region
-  alias  = "org_admin"
+  alias   = "org_admin"
 }
 
 
 module "org_admin" {
-  source      = "./modules/org-admin/iam"
-  org_admin   = var.org_admin
-  aws_profile = var.aws_profile
-  aws_region  = var.aws_region
+  source             = "./modules/org-admin/iam"
+  org_admin          = var.org_admin
+  aws_profile        = var.aws_profile
+  aws_region         = var.aws_region
   aws_billing_region = var.aws_billing_region
-  org_admin_policy = var.org_admin_policy
+  org_admin_policy   = var.org_admin_policy
+  target_account_id  = var.organisation_id
 }
 # --- Call the Billing Alarm Module ---
 module "billing_alarm_setup" {
@@ -52,25 +53,25 @@ module "billing_alarm_setup" {
 }
 
 module "sso_users" {
-  source = "./modules/org-admin/sso-users"
-  dev_users                = var.dev_users
-  permission_set_name      = var.permission_set_name
-  target_account_id        = var.organisation_id
+  source              = "./modules/org-admin/sso-users"
+  dev_users           = var.dev_users
+  permission_set_name = var.permission_set_name
+  target_account_id   = var.organisation_id
 
   depends_on = [module.org_admin]
-  
+
 }
 
 module "cloudtrail_logs" {
   source = "./modules/org-admin/trails-logs"
 
-  cloudtrail_log_group_name      = var.cloudtrail_log_group_name
-  cloudtrail_name                = var.cloudtrail_name
-  cloudtrail_bucket_name         = var.cloudtrail_bucket_name
-  cloudtrail_global_region       = var.cloudtrail_global_region
-  cloudtrail_versioning_enabled  = var.cloudtrail_versioning_enabled
-  cloudtrail_cloudwatchlogs_role = var.cloudtrail_cloudwatchlogs_role
+  cloudtrail_log_group_name        = var.cloudtrail_log_group_name
+  cloudtrail_name                  = var.cloudtrail_name
+  cloudtrail_bucket_name           = var.cloudtrail_bucket_name
+  cloudtrail_global_region         = var.cloudtrail_global_region
+  cloudtrail_versioning_enabled    = var.cloudtrail_versioning_enabled
+  cloudtrail_cloudwatchlogs_role   = var.cloudtrail_cloudwatchlogs_role
   cloudtrail_cloudwatchlogs_policy = var.cloudtrail_cloudwatchlogs_policy
-  organisation_id                = var.organisation_id
-  
+  organisation_id                  = var.organisation_id
+
 }

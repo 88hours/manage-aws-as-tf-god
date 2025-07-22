@@ -1,30 +1,30 @@
 {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "iam:GetUser",
-                "iam:ListUsers",
-                "iam:CreateAccessKey",
-                "iam:ListAccessKeys",
-                "iam:DeleteAccessKey",
-                "iam:GetLoginProfile",
-                "iam:CreateLoginProfile",
-                "iam:UpdateLoginProfile",
-                "iam:DeleteLoginProfile",
-                "iam:TagUser",
-                "iam:UntagUser",
-                "iam:ListUserTags",
-                "iam:ListAttachedUserPolicies",
-                "iam:ListUserPolicies",
-                "iam:PutUserPolicy",
-                "iam:DeleteUserPolicy",
-                "iam:GetUserPolicy"
-
-            ],
-            "Resource": "arn:aws:iam::684273075367:user/88HoursOrgAdmin"
-        },{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "iam:GetUser",
+        "iam:ListUsers",
+        "iam:CreateAccessKey",
+        "iam:ListAccessKeys",
+        "iam:DeleteAccessKey",
+        "iam:GetLoginProfile",
+        "iam:CreateLoginProfile",
+        "iam:UpdateLoginProfile",
+        "iam:DeleteLoginProfile",
+        "iam:TagUser",
+        "iam:UntagUser",
+        "iam:ListUserTags",
+        "iam:ListAttachedUserPolicies",
+        "iam:ListUserPolicies",
+        "iam:PutUserPolicy",
+        "iam:DeleteUserPolicy",
+        "iam:GetUserPolicy"
+      ],
+      "Resource": "arn:aws:iam::${var.target_account_id}:user/88HoursOrgAdmin"
+    },
+    {
       "Sid": "IAMActionsForSSO",
       "Effect": "Allow",
       "Action": [
@@ -42,76 +42,101 @@
         "iam:DetachRolePolicy",
         "iam:ListAttachedRolePolicies",
         "iam:PutRolePolicy",
-        "iam:DeleteRolePolicy","iam:ListRolePolicies"
+        "iam:DeleteRolePolicy",
+        "iam:ListRolePolicies",
+        "iam:CreatePolicy",
+        "iam:CreatePolicyVersion",
+        "iam:SetDefaultPolicyVersion",
+        "iam:DeletePolicyVersion",
+        "iam:DeletePolicy",
+        "iam:GetPolicy",
+        "iam:GetPolicyVersion",
+        "iam:ListPolicyVersions",
+        "iam:ListPolicies",
+        "iam:ListAttachedUserPolicies",
+        "iam:ListAttachedRolePolicies",
+        "iam:ListAttachedGroupPolicies",
+        "iam:ListEntitiesForPolicy",
+        "iam:TagPolicy",
+        "iam:UntagPolicy",
+        "iam:ListPolicyTags",
+        "iam:AttachUserPolicy",
+        "iam:DetachUserPolicy",
+        "iam:AttachRolePolicy",
+        "iam:DetachRolePolicy",
+        "iam:AttachGroupPolicy",
+        "iam:DetachGroupPolicy"
       ],
       "Resource": "*"
-    },{
-            "Effect": "Allow",
-            "Action": [
-                "iam:CreatePolicy",
-                "iam:CreatePolicyVersion",
-                "iam:SetDefaultPolicyVersion",
-                "iam:DeletePolicyVersion",
-                "iam:DeletePolicy",
-                "iam:GetPolicy",
-                "iam:GetPolicyVersion",
-                "iam:ListPolicyVersions",
-                "iam:ListPolicies",
-                "iam:ListAttachedUserPolicies",
-                "iam:ListAttachedRolePolicies",
-                "iam:ListAttachedGroupPolicies",
-                "iam:ListEntitiesForPolicy",
-                "iam:TagPolicy",
-                "iam:UntagPolicy",
-                "iam:ListPolicyTags",
-                "iam:AttachUserPolicy",
-                "iam:DetachUserPolicy",
-                "iam:AttachRolePolicy",
-                "iam:DetachRolePolicy",
-                "iam:AttachGroupPolicy",
-                "iam:DetachGroupPolicy"
-            ],
-            "Resource": "arn:aws:iam::684273075367:policy/88HoursOrgAdminManagedPolicy"
-        },
-        {
-            "Action": [
-                "iam:CreateAccessKey",
-                "iam:ListAccessKeys",
-                "iam:DeleteAccessKey",
-                "iam:GetAccessKeyLastUsed",
-                "iam:GetLoginProfile",
-                "iam:CreateLoginProfile",
-                "iam:UpdateLoginProfile",
-                "iam:DeleteLoginProfile",
-                "iam:ListUsers"
-            ],
-            "Effect": "Allow",
-            "Resource": "arn:aws:iam::*:user/88HoursOrgAdmin"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "sso:*",
-                "sso-admin:*",
-                "identitystore:*",    
-                "sso:ProvisionPermissionSet"
-
-            ],
-            "Resource": "*"
-            },      
-            {
-            "Action": [
-                "sts:AssumeRole"
-            ],
-            "Effect": "Allow",
-            "Resource": "*"
-        },
-        {
-            "Action": "ec2:DescribeRegions",
-            "Effect": "Allow",
-            "Resource": "*"
-        },
-         {
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "iam:CreatePolicy",
+        "iam:CreatePolicyVersion",
+        "iam:SetDefaultPolicyVersion",
+        "iam:DeletePolicyVersion",
+        "iam:DeletePolicy",
+        "iam:GetPolicy",
+        "iam:GetPolicyVersion",
+        "iam:ListPolicyVersions",
+        "iam:ListPolicies",
+        "iam:ListAttachedUserPolicies",
+        "iam:ListAttachedRolePolicies",
+        "iam:ListAttachedGroupPolicies",
+        "iam:ListEntitiesForPolicy",
+        "iam:TagPolicy",
+        "iam:UntagPolicy",
+        "iam:ListPolicyTags",
+        "iam:AttachUserPolicy",
+        "iam:DetachUserPolicy",
+        "iam:AttachRolePolicy",
+        "iam:DetachRolePolicy",
+        "iam:AttachGroupPolicy",
+        "iam:DetachGroupPolicy"
+      ],
+      "Resource": "arn:aws:iam::${var.target_account_id}:policy/88HoursOrgAdminManagedPolicy"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "iam:CreateAccessKey",
+        "iam:ListAccessKeys",
+        "iam:DeleteAccessKey",
+        "iam:GetAccessKeyLastUsed",
+        "iam:GetLoginProfile",
+        "iam:CreateLoginProfile",
+        "iam:UpdateLoginProfile",
+        "iam:DeleteLoginProfile",
+        "iam:ListUsers"
+      ],
+      "Resource": "arn:aws:iam::*:user/88HoursOrgAdmin"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "sso:*",
+        "sso-admin:*",
+        "identitystore:*",
+        "sso:ProvisionPermissionSet"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "sts:AssumeRole"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ec2:DescribeRegions"
+      ],
+      "Resource": "*"
+    },
+    {
       "Sid": "CloudTrailS3Access",
       "Effect": "Allow",
       "Action": [
@@ -125,7 +150,9 @@
     {
       "Sid": "CloudWatchAccess",
       "Effect": "Allow",
-      "Action": ["logs:*"],
+      "Action": [
+        "logs:*"
+      ],
       "Resource": "*"
     },
     {
@@ -148,59 +175,58 @@
       ],
       "Resource": "*"
     },
-        {
-            "Action": [
-                "sns:CreateTopic",
-                "sns:Publish",
-                "sns:Subscribe",
-                "sns:ListTopics",
-                "sns:ListSubscriptions",
-                "sns:GetTopicAttributes",
-                "sns:SetTopicAttributes",
-                "sns:DeleteTopic",
-                "sns:Unsubscribe",
-                "sns:TagResource",
-                "sns:UntagResource",
-                "sns:ListTagsForResource",
-                "sns:ConfirmSubscription",
-                "sns:ListSubscriptionsByTopic",
-                "sns:GetSubscriptionAttributes",
-                "sns:SetSubscriptionAttributes",
-                "sns:ListSubscriptionsByTopic"
-            ],
-            "Effect": "Allow",
-            "Resource": "*"
-        },
-        {
-            "Action": [
-                "cloudwatch:PutMetricAlarm",
-                "cloudwatch:DescribeAlarms",
-                "cloudwatch:DeleteAlarms",
-                "cloudwatch:GetMetricData",
-                "cloudwatch:ListMetrics",
-                "cloudwatch:EnableAlarmActions",
-                "cloudwatch:DisableAlarmActions",
-                "cloudwatch:SetAlarmState",
-                "cloudwatch:DescribeAlarmHistory",
-                "cloudwatch:GetMetricStatistics",
-                "cloudwatch:PutMetricData",
-                "cloudwatch:ListTagsForResource",
-                "cloudwatch:TagResource",
-                "cloudwatch:UntagResource"
-            ],
-            "Effect": "Allow",
-            "Resource": "*"
-        },
-        {
-            "Action": [
-                "ce:GetCostAndUsage",
-                "aws-portal:ViewBilling",
-                "aws-portal:ViewUsage",
-                "aws-portal:ViewAccount",
-                "aws-portal:ModifyBilling"
-            ],
-            "Effect": "Allow",
-            "Resource": "*"
-        }
-    ]
+    {
+      "Effect": "Allow",
+      "Action": [
+        "sns:CreateTopic",
+        "sns:Publish",
+        "sns:Subscribe",
+        "sns:ListTopics",
+        "sns:ListSubscriptions",
+        "sns:GetTopicAttributes",
+        "sns:SetTopicAttributes",
+        "sns:DeleteTopic",
+        "sns:Unsubscribe",
+        "sns:TagResource",
+        "sns:UntagResource",
+        "sns:ListTagsForResource",
+        "sns:ConfirmSubscription",
+        "sns:ListSubscriptionsByTopic",
+        "sns:GetSubscriptionAttributes",
+        "sns:SetSubscriptionAttributes"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "cloudwatch:PutMetricAlarm",
+        "cloudwatch:DescribeAlarms",
+        "cloudwatch:DeleteAlarms",
+        "cloudwatch:GetMetricData",
+        "cloudwatch:ListMetrics",
+        "cloudwatch:EnableAlarmActions",
+        "cloudwatch:DisableAlarmActions",
+        "cloudwatch:SetAlarmState",
+        "cloudwatch:DescribeAlarmHistory",
+        "cloudwatch:GetMetricStatistics",
+        "cloudwatch:PutMetricData",
+        "cloudwatch:ListTagsForResource",
+        "cloudwatch:TagResource",
+        "cloudwatch:UntagResource"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ce:GetCostAndUsage",
+        "aws-portal:ViewBilling",
+        "aws-portal:ViewUsage",
+        "aws-portal:ViewAccount",
+        "aws-portal:ModifyBilling"
+      ],
+      "Resource": "*"
+    }
+  ]
 }

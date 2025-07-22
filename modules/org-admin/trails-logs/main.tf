@@ -24,7 +24,7 @@ resource "aws_s3_bucket_public_access_block" "cloudtrail_bucket_public_access" {
 resource "aws_s3_bucket_versioning" "cloudtrail_bucket_versioning" {
   bucket = aws_s3_bucket.cloudtrail_bucket.id
 
-versioning_configuration {
+  versioning_configuration {
     status = var.cloudtrail_versioning_enabled ? "Enabled" : "Suspended"
   }
 }
@@ -32,7 +32,7 @@ versioning_configuration {
 resource "aws_s3_bucket" "cloudtrail_bucket" {
   bucket = var.cloudtrail_bucket_name
   #acl    = "private" # Deprecated, use bucket_policy instead
-force_destroy = true
+  force_destroy = true
 
 }
 
@@ -49,7 +49,7 @@ resource "aws_iam_role" "cloudtrail_cloudwatch_role" {
       Action = "sts:AssumeRole"
     }]
   })
-  
+
 }
 resource "aws_s3_bucket_policy" "cloudtrail_bucket_policy" {
   bucket = aws_s3_bucket.cloudtrail_bucket.id
@@ -58,22 +58,22 @@ resource "aws_s3_bucket_policy" "cloudtrail_bucket_policy" {
     Version = "2012-10-17",
     Statement = [
       {
-        Sid       = "AWSCloudTrailAclCheck",
-        Effect    = "Allow",
+        Sid    = "AWSCloudTrailAclCheck",
+        Effect = "Allow",
         Principal = {
           Service = "cloudtrail.amazonaws.com"
         },
-        Action    = "s3:GetBucketAcl",
-        Resource  = "arn:aws:s3:::${var.cloudtrail_bucket_name}"
+        Action   = "s3:GetBucketAcl",
+        Resource = "arn:aws:s3:::${var.cloudtrail_bucket_name}"
       },
       {
-        Sid       = "AWSCloudTrailWrite",
-        Effect    = "Allow",
+        Sid    = "AWSCloudTrailWrite",
+        Effect = "Allow",
         Principal = {
           Service = "cloudtrail.amazonaws.com"
         },
-        Action    = "s3:PutObject",
-        Resource  = "arn:aws:s3:::${var.cloudtrail_bucket_name}/AWSLogs/${var.organisation_id}/*",
+        Action   = "s3:PutObject",
+        Resource = "arn:aws:s3:::${var.cloudtrail_bucket_name}/AWSLogs/${var.organisation_id}/*",
         Condition = {
           StringEquals = {
             "s3:x-amz-acl" = "bucket-owner-full-control"
@@ -100,8 +100,8 @@ resource "aws_iam_role_policy" "cloudtrail_cloudwatch_policy" {
         Resource = "arn:aws:logs:${var.cloudtrail_global_region}:${var.organisation_id}:log-group:${var.cloudtrail_log_group_name}:*"
       },
       {
-        Effect = "Allow"
-        Action = "logs:CreateLogGroup"
+        Effect   = "Allow"
+        Action   = "logs:CreateLogGroup"
         Resource = "*"
       }
     ]
@@ -110,7 +110,7 @@ resource "aws_iam_role_policy" "cloudtrail_cloudwatch_policy" {
 
 
 resource "aws_cloudwatch_log_group" "cloudtrail_log_group" {
-  name = var.cloudtrail_log_group_name
+  name              = var.cloudtrail_log_group_name
   retention_in_days = 90
 }
 
@@ -120,7 +120,7 @@ resource "aws_cloudtrail" "main" {
   include_global_service_events = true
   is_multi_region_trail         = true
   enable_logging                = true
-  enable_log_file_validation = true
-  cloud_watch_logs_group_arn  = "${aws_cloudwatch_log_group.cloudtrail_log_group.arn}:*"
-  cloud_watch_logs_role_arn   = aws_iam_role.cloudtrail_cloudwatch_role.arn
+  enable_log_file_validation    = true
+  cloud_watch_logs_group_arn    = "${aws_cloudwatch_log_group.cloudtrail_log_group.arn}:*"
+  cloud_watch_logs_role_arn     = aws_iam_role.cloudtrail_cloudwatch_role.arn
 }

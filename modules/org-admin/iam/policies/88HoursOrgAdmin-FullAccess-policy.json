@@ -22,7 +22,7 @@
         "iam:DeleteUserPolicy",
         "iam:GetUserPolicy"
       ],
-      "Resource": "arn:aws:iam::${var.target_account_id}:user/88HoursOrgAdmin"
+      "Resource": "arn:aws:iam::684273075367:user/88HoursOrgAdmin"
     },
     {
       "Sid": "IAMActionsForSSO",
@@ -95,7 +95,7 @@
         "iam:AttachGroupPolicy",
         "iam:DetachGroupPolicy"
       ],
-      "Resource": "arn:aws:iam::${var.target_account_id}:policy/88HoursOrgAdminManagedPolicy"
+      "Resource": "arn:aws:iam::684273075367:policy/88HoursOrgAdminManagedPolicy"
     },
     {
       "Effect": "Allow",

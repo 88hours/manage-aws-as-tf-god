@@ -32,10 +32,8 @@ versioning_configuration {
 resource "aws_s3_bucket" "cloudtrail_bucket" {
   bucket = var.cloudtrail_bucket_name
   #acl    = "private" # Deprecated, use bucket_policy instead
+force_destroy = true
 
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 resource "aws_iam_role" "cloudtrail_cloudwatch_role" {
@@ -50,6 +48,39 @@ resource "aws_iam_role" "cloudtrail_cloudwatch_role" {
       }
       Action = "sts:AssumeRole"
     }]
+  })
+  
+}
+resource "aws_s3_bucket_policy" "cloudtrail_bucket_policy" {
+  bucket = aws_s3_bucket.cloudtrail_bucket.id
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Sid       = "AWSCloudTrailAclCheck",
+        Effect    = "Allow",
+        Principal = {
+          Service = "cloudtrail.amazonaws.com"
+        },
+        Action    = "s3:GetBucketAcl",
+        Resource  = "arn:aws:s3:::${var.cloudtrail_bucket_name}"
+      },
+      {
+        Sid       = "AWSCloudTrailWrite",
+        Effect    = "Allow",
+        Principal = {
+          Service = "cloudtrail.amazonaws.com"
+        },
+        Action    = "s3:PutObject",
+        Resource  = "arn:aws:s3:::${var.cloudtrail_bucket_name}/AWSLogs/${var.organisation_id}/*",
+        Condition = {
+          StringEquals = {
+            "s3:x-amz-acl" = "bucket-owner-full-control"
+          }
+        }
+      }
+    ]
   })
 }
 
@@ -66,7 +97,7 @@ resource "aws_iam_role_policy" "cloudtrail_cloudwatch_policy" {
           "logs:PutLogEvents",
           "logs:CreateLogStream"
         ]
-        Resource = "arn:aws:logs:*:*:log-group:/aws/cloudtrail/*"
+        Resource = "arn:aws:logs:${var.cloudtrail_global_region}:${var.organisation_id}:log-group:${var.cloudtrail_log_group_name}:*"
       },
       {
         Effect = "Allow"
@@ -76,6 +107,7 @@ resource "aws_iam_role_policy" "cloudtrail_cloudwatch_policy" {
     ]
   })
 }
+
 
 resource "aws_cloudwatch_log_group" "cloudtrail_log_group" {
   name = var.cloudtrail_log_group_name
@@ -89,6 +121,6 @@ resource "aws_cloudtrail" "main" {
   is_multi_region_trail         = true
   enable_logging                = true
   enable_log_file_validation = true
-  cloud_watch_logs_group_arn  = aws_cloudwatch_log_group.cloudtrail_log_group.arn
+  cloud_watch_logs_group_arn  = "${aws_cloudwatch_log_group.cloudtrail_log_group.arn}:*"
   cloud_watch_logs_role_arn   = aws_iam_role.cloudtrail_cloudwatch_role.arn
 }

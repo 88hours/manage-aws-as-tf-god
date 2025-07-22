@@ -115,16 +115,7 @@
       "Sid": "CloudTrailS3Access",
       "Effect": "Allow",
       "Action": [
-        "s3:CreateBucket",
-        "s3:PutBucketPolicy",
-        "s3:PutBucketPublicAccessBlock",
-        "s3:PutBucketOwnershipControls",
-        "s3:PutBucketLogging",
-        "s3:GetBucketPolicy",
-        "s3:GetBucketAcl",
-        "s3:PutEncryptionConfiguration",
-        "s3:PutBucketAcl",
-        "s3:GetBucketLocation"
+        "s3:*"
       ],
       "Resource": [
         "arn:aws:s3:::global-cloudtrail-bucket-88hours",
@@ -134,14 +125,7 @@
     {
       "Sid": "CloudWatchAccess",
       "Effect": "Allow",
-      "Action": [
-        "logs:CreateLogGroup",
-        "logs:PutRetentionPolicy",
-        "logs:CreateLogStream",
-        "logs:PutLogEvents",
-        "logs:DescribeLogGroups",
-        "logs:DescribeLogStreams"
-      ],
+      "Action": ["logs:*"],
       "Resource": "*"
     },
     {
@@ -160,13 +144,7 @@
       "Sid": "CloudTrailAccess",
       "Effect": "Allow",
       "Action": [
-        "cloudtrail:CreateTrail",
-        "cloudtrail:UpdateTrail",
-        "cloudtrail:DeleteTrail",
-        "cloudtrail:StartLogging",
-        "cloudtrail:StopLogging",
-        "cloudtrail:GetTrailStatus",
-        "cloudtrail:DescribeTrails"
+        "cloudtrail:*"
       ],
       "Resource": "*"
     },

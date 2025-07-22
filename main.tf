@@ -30,6 +30,7 @@ provider "aws" {
   alias  = "org_admin"
 }
 
+
 module "org_admin" {
   source      = "./modules/org-admin/iam"
   org_admin   = var.org_admin
@@ -70,5 +71,6 @@ module "cloudtrail_logs" {
   cloudtrail_versioning_enabled  = var.cloudtrail_versioning_enabled
   cloudtrail_cloudwatchlogs_role = var.cloudtrail_cloudwatchlogs_role
   cloudtrail_cloudwatchlogs_policy = var.cloudtrail_cloudwatchlogs_policy
+  organisation_id                = var.organisation_id
   
 }

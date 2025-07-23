@@ -125,11 +125,23 @@ resource "aws_iam_policy" "allow_passrole_ecs_task_execution_role_for_admin" {
 
   policy = jsonencode({
     Version = "2012-10-17",
-    Statement = [{
+  Statement = [
+    {
       Effect   = "Allow",
       Action   = ["iam:PassRole"],
-      Resource = "arn:aws:iam::${var.target_account_id}:role/ecsTaskExecutionRole"
-    }]
+      Resource = "arn:aws:iam::684273075367:role/ecsTaskExecutionRole"
+    },
+    {
+      Effect   = "Allow",
+      Action   = ["iam:CreateRole"],
+      Resource = "arn:aws:iam::684273075367:role/eks*"
+    },
+    {
+      Effect   = "Allow",
+      Action   = ["iam:CreatePolicy"],
+      Resource = "arn:aws:iam::684273075367:policy/eks*"
+    }
+  ]
   })
 }
 

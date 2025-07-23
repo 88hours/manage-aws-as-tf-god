@@ -10,7 +10,13 @@ locals {
   ]
 }
 
-
+locals {
+  eks_node_policies = [
+    "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
+    "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
+    "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
+  ]
+}
 data "aws_ssoadmin_instances" "this" {}
 
 resource "aws_identitystore_group" "dev_group" {
@@ -110,10 +116,12 @@ resource "aws_ssoadmin_permission_set_inline_policy" "combined_inline_policy" {
     {
         Effect = "Allow",
         Action = [
-          "iam:CreateRole",
+          "iam:DetachRolePolicy",
           "iam:AttachRolePolicy",
-          "iam:PutRolePolicy",
-          "iam:PassRole","iam:TagRole"
+          "iam:PassRole",
+          "iam:CreateRole",
+          "iam:TagRole","iam:ListPolicyVersions",
+          "iam:ListInstanceProfilesForRole","iam:DeleteRole"
         ],
         Resource = [
           #"arn:aws:iam::${var.target_account_id}:role/eks-cluster-*",
@@ -123,8 +131,19 @@ resource "aws_ssoadmin_permission_set_inline_policy" "combined_inline_policy" {
       },
     {
       Effect   = "Allow",
-      Action   = ["iam:CreatePolicy"],
-      Resource = "arn:aws:iam::684273075367:policy/eks*"
+      Action   = ["iam:CreatePolicy",
+                  "iam:DeletePolicy",
+                  "iam:ListPolicies",
+                  "iam:GetPolicy",
+                  "iam:GetPolicyVersion",
+                  "iam:ListAttachedRolePolicies",
+                  "iam:ListRolePolicies",
+                  "iam:GetRolePolicy",
+                  "iam:ListRoles", "iam:ListPolicyVersions"],
+      Resource = [
+        #"arn:aws:iam::684273075367:policy/eks*"
+        "arn:aws:iam::${var.target_account_id}:policy/*"
+        ]
     }
   ]
   })
@@ -150,4 +169,47 @@ resource "aws_iam_policy_attachment" "attach_passrole_admin" {
   name       = "attach-passrole-to-admin"
   policy_arn = aws_iam_policy.allow_passrole_ecs_task_execution_role_for_admin.arn
   users      = ["88HoursOrgAdmin"] # admin user name here
+}
+
+resource "aws_iam_role" "eks_cluster_role" {
+  name = "eks-cluster-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect = "Allow"
+      Principal = {
+        Service = "eks.amazonaws.com"
+      }
+      Action = "sts:AssumeRole"
+    }]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "eks_cluster_role_attachment" {
+  role       = aws_iam_role.eks_cluster_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+}
+
+resource "aws_iam_role" "eks_node_group_role" {
+  name = "eks-node-group-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect = "Allow"
+      Principal = {
+        Service = "ec2.amazonaws.com"
+      }
+      Action = "sts:AssumeRole"
+    }]
+  })
+}
+
+
+resource "aws_iam_role_policy_attachment" "eks_node_group_role_attachments" {
+  for_each = toset(local.eks_node_policies)
+
+  role       = aws_iam_role.eks_node_group_role.name
+  policy_arn = each.value
 }

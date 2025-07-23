@@ -73,5 +73,6 @@ module "cloudtrail_logs" {
   cloudtrail_cloudwatchlogs_role   = var.cloudtrail_cloudwatchlogs_role
   cloudtrail_cloudwatchlogs_policy = var.cloudtrail_cloudwatchlogs_policy
   organisation_id                  = var.organisation_id
+  
 
 }

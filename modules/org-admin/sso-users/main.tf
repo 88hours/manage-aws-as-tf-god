@@ -15,6 +15,12 @@ locals {
     "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
     "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
     "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
+    "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy",
+    "arn:aws:iam::aws:policy/AmazonEKSServicePolicy",
+    "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
+    "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
+    "arn:aws:iam::aws:policy/AmazonSSMFullAccess",
+"arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
   ]
 }
 data "aws_ssoadmin_instances" "this" {}
@@ -144,6 +150,83 @@ resource "aws_ssoadmin_permission_set_inline_policy" "combined_inline_policy" {
         #"arn:aws:iam::684273075367:policy/eks*"
         "arn:aws:iam::${var.target_account_id}:policy/*"
         ]
+    },{
+      "Sid": "EKSCore",
+      "Effect": "Allow",
+      "Action": [
+        "eks:*"
+      ],
+      "Resource": "*"
+    },
+    {
+  "Sid": "IAMForEKSAndOIDC",
+  "Effect": "Allow",
+  "Action": [
+    "iam:CreateRole",
+    "iam:DeleteRole",
+    "iam:GetRole",
+    "iam:PassRole",
+    "iam:AttachRolePolicy",
+    "iam:DetachRolePolicy",
+    "iam:CreatePolicy",
+    "iam:DeletePolicy",
+    "iam:GetPolicy",
+    "iam:GetPolicyVersion",
+    "iam:ListAttachedRolePolicies",
+    "iam:ListRolePolicies",
+    "iam:PutRolePolicy",
+    "iam:DeleteRolePolicy",
+    "iam:CreateOpenIDConnectProvider",
+    "iam:DeleteOpenIDConnectProvider",
+    "iam:GetOpenIDConnectProvider",
+    "iam:ListOpenIDConnectProviders"
+  ],
+  "Resource": "*"
+},
+{
+  "Sid": "OIDCTaggingPermission",
+  "Effect": "Allow",
+  "Action": [
+    "iam:TagOpenIDConnectProvider"
+  ],
+  "Resource": "arn:aws:iam::${var.target_account_id}:oidc-provider/*"
+},
+    {
+      "Sid": "EC2ForWorkerNodes",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:*",
+        "autoscaling:*",
+        "elasticloadbalancing:*",
+        "ec2messages:*",
+        "ssm:*",
+        "ssmmessages:*",
+        "ecr:*"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "CloudWatchAndLogging",
+      "Effect": "Allow",
+      "Action": [
+        "logs:*",
+        "cloudwatch:*",
+        "events:*"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "VPCNetworking",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:Describe*",
+        "ec2:CreateSecurityGroup",
+        "ec2:AuthorizeSecurityGroupIngress",
+        "ec2:AuthorizeSecurityGroupEgress",
+        "ec2:CreateTags",
+        "ec2:DeleteSecurityGroup"
+      ],
+      "Resource": "*"
     }
   ]
   })

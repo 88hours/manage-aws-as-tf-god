@@ -110,9 +110,11 @@ resource "aws_iam_role_policy" "cloudtrail_cloudwatch_policy" {
 
 
 resource "aws_cloudwatch_log_group" "cloudtrail_log_group" {
-  name              = var.cloudtrail_log_group_name
-  retention_in_days = 90
+  name                      = var.cloudtrail_log_group_name
+  retention_in_days         = 90
+  log_group_class = "INFREQUENT_ACCESS"  # or "STANDARD"
 }
+
 
 resource "aws_cloudtrail" "main" {
   name                          = var.cloudtrail_name
@@ -123,4 +125,5 @@ resource "aws_cloudtrail" "main" {
   enable_log_file_validation    = true
   cloud_watch_logs_group_arn    = "${aws_cloudwatch_log_group.cloudtrail_log_group.arn}:*"
   cloud_watch_logs_role_arn     = aws_iam_role.cloudtrail_cloudwatch_role.arn
+  
 }

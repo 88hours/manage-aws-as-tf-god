@@ -105,13 +105,22 @@ resource "aws_ssoadmin_permission_set_inline_policy" "combined_inline_policy" {
     {
       Effect   = "Allow",
       Action   = ["iam:PassRole"],
-      Resource = "arn:aws:iam::684273075367:role/ecsTaskExecutionRole"
+      Resource = "arn:aws:iam::${var.target_account_id}:role/ecsTaskExecutionRole"
     },
     {
-      Effect   = "Allow",
-      Action   = ["iam:CreateRole"],
-      Resource = "arn:aws:iam::684273075367:role/eks*"
-    },
+        Effect = "Allow",
+        Action = [
+          "iam:CreateRole",
+          "iam:AttachRolePolicy",
+          "iam:PutRolePolicy",
+          "iam:PassRole","iam:TagRole"
+        ],
+        Resource = [
+          #"arn:aws:iam::${var.target_account_id}:role/eks-cluster-*",
+          #"arn:aws:iam::${var.target_account_id}:role/default-eks-node-group-*"
+          "arn:aws:iam::${var.target_account_id}:role/*"
+        ]
+      },
     {
       Effect   = "Allow",
       Action   = ["iam:CreatePolicy"],

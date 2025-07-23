@@ -145,7 +145,7 @@ resource "aws_ssoadmin_permission_set_inline_policy" "combined_inline_policy" {
                   "iam:ListAttachedRolePolicies",
                   "iam:ListRolePolicies",
                   "iam:GetRolePolicy",
-                  "iam:ListRoles", "iam:ListPolicyVersions"],
+                  "iam:ListRoles", "iam:ListPolicyVersions","iam:RemoveRoleFromInstanceProfile"],
       Resource = [
         #"arn:aws:iam::684273075367:policy/eks*"
         "arn:aws:iam::${var.target_account_id}:policy/*"

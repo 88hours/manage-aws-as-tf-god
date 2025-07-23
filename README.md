@@ -44,6 +44,9 @@ These are taking lot of time, like 20 mins so far
 module.cloudtrail_logs.aws_s3_bucket.cloudtrail_bucket: Still creating... [01m20s elapsed]
 
 sso:ProvisionPermissionSet is NOT covered by sso:*
+SSO permission changes can take longer because AWS internally syncs the changes to identity services.
+
+
 AWS has two distinct APIs:
 
 sso:* → Old SSO login/session API.

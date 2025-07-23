@@ -100,31 +100,7 @@ resource "aws_ssoadmin_permission_set_inline_policy" "combined_inline_policy" {
   permission_set_arn = aws_ssoadmin_permission_set.dev_access.arn
 
   inline_policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Effect = "Allow",
-        Action = ["iam:PassRole"],
-        Resource = "arn:aws:iam::${var.target_account_id}:role/ecsTaskExecutionRole"
-      },
-      {
-        Effect = "Allow",
-        Action = ["iam:CreateRole"],
-        Resource = "arn:aws:iam::${var.target_account_id}:role/eksNodeGroupRole"
-
-      }
-    ]
-  })
-}
-
-
-
-resource "aws_iam_policy" "allow_passrole_ecs_task_execution_role_for_admin" {
-  name        = "AllowPassRoleEcsTaskExecutionRoleForAdmin"
-  description = "Allow iam:PassRole on ecsTaskExecutionRole for admin user"
-
-  policy = jsonencode({
-    Version = "2012-10-17",
+     Version = "2012-10-17",
   Statement = [
     {
       Effect   = "Allow",
@@ -142,6 +118,22 @@ resource "aws_iam_policy" "allow_passrole_ecs_task_execution_role_for_admin" {
       Resource = "arn:aws:iam::684273075367:policy/eks*"
     }
   ]
+  })
+}
+
+
+
+resource "aws_iam_policy" "allow_passrole_ecs_task_execution_role_for_admin" {
+  name        = "AllowPassRoleEcsTaskExecutionRoleForAdmin"
+  description = "Allow iam:PassRole on ecsTaskExecutionRole for admin user"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [{
+      Effect   = "Allow",
+      Action   = ["iam:PassRole"],
+      Resource = "arn:aws:iam::${var.target_account_id}:role/ecsTaskExecutionRole"
+    }]
   })
 }
 

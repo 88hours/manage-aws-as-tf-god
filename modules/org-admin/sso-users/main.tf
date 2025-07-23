@@ -127,7 +127,7 @@ resource "aws_ssoadmin_permission_set_inline_policy" "combined_inline_policy" {
           "iam:PassRole",
           "iam:CreateRole",
           "iam:TagRole","iam:ListPolicyVersions",
-          "iam:ListInstanceProfilesForRole","iam:DeleteRole"
+          "iam:ListInstanceProfilesForRole","iam:DeleteRole", "iam:RemoveRoleFromInstanceProfile"
         ],
         Resource = [
           #"arn:aws:iam::${var.target_account_id}:role/eks-cluster-*",

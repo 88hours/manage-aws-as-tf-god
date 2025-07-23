@@ -91,27 +91,33 @@ resource "aws_iam_role" "ecs_task_execution_role" {
 resource "aws_iam_role_policy_attachment" "ecs_task_execution_role_attachment" {
   role       = aws_iam_role.ecs_task_execution_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+  
 }
 
-resource "aws_iam_policy" "allow_passrole_ecs_task_execution_role" {
-  name        = "AllowPassRoleEcsTaskExecutionRole"
-  description = "Allow iam:PassRole on ecsTaskExecutionRole for SSO users"
 
-  policy = jsonencode({
+resource "aws_ssoadmin_permission_set_inline_policy" "combined_inline_policy" {
+  instance_arn       = data.aws_ssoadmin_instances.this.arns[0]
+  permission_set_arn = aws_ssoadmin_permission_set.dev_access.arn
+
+  inline_policy = jsonencode({
     Version = "2012-10-17",
-    Statement = [{
-      Effect   = "Allow",
-      Action   = ["iam:PassRole"],
-      Resource = "arn:aws:iam::${var.target_account_id}:role/ecsTaskExecutionRole"
-    }]
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = ["iam:PassRole"],
+        Resource = "arn:aws:iam::${var.target_account_id}:role/ecsTaskExecutionRole"
+      },
+      {
+        Effect = "Allow",
+        Action = ["iam:CreateRole"],
+        Resource = "arn:aws:iam::${var.target_account_id}:role/eksNodeGroupRole"
+
+      }
+    ]
   })
 }
 
-resource "aws_ssoadmin_permission_set_inline_policy" "passrole_policy" {
-  instance_arn       = data.aws_ssoadmin_instances.this.arns[0]
-  permission_set_arn = aws_ssoadmin_permission_set.dev_access.arn
-  inline_policy      = aws_iam_policy.allow_passrole_ecs_task_execution_role.policy
-}
+
 
 resource "aws_iam_policy" "allow_passrole_ecs_task_execution_role_for_admin" {
   name        = "AllowPassRoleEcsTaskExecutionRoleForAdmin"

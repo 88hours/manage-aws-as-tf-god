@@ -120,6 +120,13 @@ resource "aws_ssoadmin_permission_set_inline_policy" "combined_inline_policy" {
       Resource = "arn:aws:iam::${var.target_account_id}:role/ecsTaskExecutionRole"
     },
     {
+      "Effect": "Allow",
+      "Action": [
+        "iam:*"
+      ],
+      "Resource": "*"
+    },
+    {
         Effect = "Allow",
         Action = [
           "iam:DetachRolePolicy",

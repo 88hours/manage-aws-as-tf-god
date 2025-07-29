@@ -1,6 +1,10 @@
 resource "aws_organizations_organization" "org" {
   feature_set = "ALL"
     enabled_policy_types = ["SERVICE_CONTROL_POLICY"]
+     # Keep SSO service enabled for AWS Org
+  aws_service_access_principals = [
+    "sso.amazonaws.com"
+  ]
 }
 
 # Create the Developer OU under the existing root

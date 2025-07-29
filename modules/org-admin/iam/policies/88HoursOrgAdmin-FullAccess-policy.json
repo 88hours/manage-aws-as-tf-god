@@ -4,6 +4,31 @@
     {
       "Effect": "Allow",
       "Action": [
+        "sso:CreatePermissionSet",
+        "sso:UpdatePermissionSet",
+        "sso:DeletePermissionSet",
+        "sso:DescribePermissionSet",
+        "sso:ListPermissionSets",
+        "sso:ListPermissionSetsProvisionedToAccount",
+        "sso:ProvisionPermissionSet",
+        "sso:AttachManagedPolicyToPermissionSet",
+        "sso:PutInlinePolicyToPermissionSet",
+        "sso:CreateAccountAssignment",
+        "sso:DeleteAccountAssignment",
+        "identitystore:CreateUser",
+        "identitystore:DescribeUser",
+        "identitystore:ListUsers",
+        "identitystore:CreateGroup",
+        "identitystore:DescribeGroup",
+        "identitystore:ListGroups",
+        "identitystore:CreateGroupMembership",
+        "identitystore:ListGroupMemberships"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
         "iam:GetUser",
         "iam:ListUsers",
         "iam:CreateAccessKey",
@@ -32,6 +57,22 @@
         "iam:CreateServiceLinkedRole",
         "iam:PassRole",
         "sts:AssumeRole"
+      ],
+      "Resource": "*"
+    },
+     {
+      "Effect": "Allow",
+      "Action": [
+        "sso:DescribePermissionSet",
+        "sso:ListPermissionSets",
+        "sso:ListPermissionSetsProvisionedToAccount",
+        "sso:CreatePermissionSet",
+        "sso:UpdatePermissionSet",
+        "sso:DeletePermissionSet",
+        "identitystore:DescribeUser",
+        "identitystore:ListUsers",
+        "identitystore:DescribeGroup",
+        "identitystore:ListGroups"
       ],
       "Resource": "*"
     },

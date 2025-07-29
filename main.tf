@@ -58,6 +58,7 @@ module "sso_users" {
   permission_set_name = var.permission_set_name
   target_account_id   = var.organisation_id
 dev_group_name     = var.dev_group_name
+org_admin_user_name = var.org_admin
   depends_on = [module.org_admin]
 
 }

@@ -25,6 +25,17 @@
       "Resource": "arn:aws:iam::684273075367:user/88HoursOrgAdmin"
     },
     {
+      "Effect": "Allow",
+      "Action": [
+        "organizations:*",
+        "account:*",
+        "iam:CreateServiceLinkedRole",
+        "iam:PassRole",
+        "sts:AssumeRole"
+      ],
+      "Resource": "*"
+    },
+    {
       "Sid": "IAMActionsForSSO",
       "Effect": "Allow",
       "Action": [

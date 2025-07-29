@@ -23,3 +23,8 @@ variable "target_account_id" {
   description = "Target AWS account ID for access assignment"
   type        = string
 }
+variable "dev_group_name" {
+  description = "Name of the developer group in AWS SSO"
+  type        = string
+  
+}

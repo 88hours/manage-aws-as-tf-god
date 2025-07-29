@@ -27,7 +27,7 @@ data "aws_ssoadmin_instances" "this" {}
 
 resource "aws_identitystore_group" "dev_group" {
   identity_store_id = data.aws_ssoadmin_instances.this.identity_store_ids[0]
-  display_name      = "Developers"
+  display_name      = var.dev_group_name
 }
 
 resource "aws_identitystore_group_membership" "dev_group" {

@@ -105,3 +105,9 @@ variable "cloudtrail_cloudwatchlogs_policy" {
   type        = string
   default     = "CloudTrail_CloudWatchLogs_Policy"
 }
+
+variable "dev_group_name" {
+  description = "Name of the developer group in AWS SSO"
+  type        = string
+  
+}

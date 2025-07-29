@@ -52,3 +52,19 @@ resource "aws_iam_user_login_profile" "org_admin_login" {
 resource "aws_iam_access_key" "org_admin_key" {
   user = aws_iam_user.org_admin.name
 }
+
+resource "aws_iam_user_policy" "assume_org_role" {
+  name = "AssumeOrgAccessRole"
+  user = aws_iam_user.org_admin.name
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = "sts:AssumeRole"
+        Resource = "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+      }
+    ]
+  })
+}

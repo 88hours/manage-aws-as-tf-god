@@ -57,11 +57,20 @@ module "sso_users" {
   dev_users           = var.dev_users
   permission_set_name = var.permission_set_name
   target_account_id   = var.organisation_id
-
+dev_group_name     = var.dev_group_name
   depends_on = [module.org_admin]
 
 }
 
+# get <root_id> from aws organizations list-roots
+# aws organizations enable-policy-type --root-id <root_id> --policy-type SERVICE_CONTROL_POLICY
+module "scp" {
+  source            = "./modules/org-admin/scp"
+  target_account_id = var.organisation_id
+  ou_name           = var.dev_group_name
+  depends_on        = [module.org_admin]
+  
+}
 module "cloudtrail_logs" {
   source = "./modules/org-admin/trails-logs"
 

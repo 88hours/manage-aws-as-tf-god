@@ -1,6 +1,18 @@
+resource "aws_organizations_organization" "org" {
+  feature_set = "ALL"
+    enabled_policy_types = ["SERVICE_CONTROL_POLICY"]
+}
+
+# Create the Developer OU under the existing root
+resource "aws_organizations_organizational_unit" "developer_ou" {
+  name      = var.ou_name
+  parent_id = aws_organizations_organization.org.roots[0].id
+}
+
+# Create a Service Control Policy to restrict root user
 resource "aws_organizations_policy" "restrict_root_scp" {
   name        = "RestrictRootUserActions"
-  description = "Restricts root user from any actions except read-only"
+  description = "Restricts root user from performing write actions"
   type        = "SERVICE_CONTROL_POLICY"
 
   content = <<POLICY
@@ -8,21 +20,23 @@ resource "aws_organizations_policy" "restrict_root_scp" {
   "Version": "2012-10-17",
   "Statement": [
     {
-      "Sid": "DenyRootUserActions",
+      "Sid": "DenyRootAllExceptReadOnly",
       "Effect": "Deny",
-      "Principal": {
-        "AWS": "arn:aws:iam::${var.target_account_id}:root"
-      },
       "Action": "*",
-      "Resource": "*"
+      "Resource": "*",
+      "Condition": {
+        "StringLike": {
+          "aws:PrincipalArn": "arn:aws:iam::*:root"
+        }
+      }
     }
   ]
 }
 POLICY
 }
 
+# Attach the SCP to the Developer OU (or change to root/account if needed)
 resource "aws_organizations_policy_attachment" "attach_restrict_root" {
   policy_id = aws_organizations_policy.restrict_root_scp.id
-  target_id = var.target_account_id
-  # Or use member account id for target_id to attach to a single account
+  target_id = aws_organizations_organizational_unit.developer_ou.id
 }

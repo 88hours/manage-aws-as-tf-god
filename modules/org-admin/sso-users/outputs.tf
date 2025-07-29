@@ -21,11 +21,11 @@ output "assignment_principal_ids" {
     for k, assignment in aws_ssoadmin_account_assignment.assign_devs:
     k => assignment.principal_id
   }
-}*/
+}
 output "identity_store_id" {
   description = "Identity Store ID where SSO users are created"
   value       = data.aws_ssoadmin_instances.this.identity_store_ids[0]
-}
+}*/
 output "target_account_id" {
   description = "Target AWS account ID for access assignment"
   value       = var.target_account_id

@@ -40,3 +40,60 @@ resource "aws_organizations_policy_attachment" "attach_restrict_root" {
   policy_id = aws_organizations_policy.restrict_root_scp.id
   target_id = aws_organizations_organizational_unit.developer_ou.id
 }
+
+resource "aws_organizations_policy" "developer_scp" {
+  name        = "DeveloperAccessPolicy"
+  description = "Restrict developers to safe actions and specific regions"
+  type        = "SERVICE_CONTROL_POLICY"
+
+  content = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "DenyDestructiveIAM",
+      "Effect": "Deny",
+      "Action": [
+        "iam:DeleteUser",
+        "iam:DeleteRole",
+        "iam:DeletePolicy",
+        "iam:DeleteGroup",
+        "iam:DetachRolePolicy",
+        "iam:DetachUserPolicy"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "DenyDisablingLogging",
+      "Effect": "Deny",
+      "Action": [
+        "cloudtrail:DeleteTrail",
+        "cloudtrail:StopLogging",
+        "logs:DeleteLogGroup",
+        "logs:DeleteLogStream"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "RestrictRegions",
+      "Effect": "Deny",
+      "Action": "*",
+      "Resource": "*",
+      "Condition": {
+        "StringNotEquals": {
+          "aws:RequestedRegion": [
+            "us-east-1",
+            "ap-southeast-2"
+          ]
+        }
+      }
+    }
+  ]
+}
+POLICY
+}
+
+resource "aws_organizations_policy_attachment" "attach_developer_scp" {
+  policy_id = aws_organizations_policy.developer_scp.id
+  target_id = aws_organizations_organizational_unit.developer_ou.id
+}
